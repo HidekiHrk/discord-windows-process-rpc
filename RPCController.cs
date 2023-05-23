@@ -47,4 +47,14 @@ internal class RPCController
   }
 
   public void ClearPresence() => this.client.ClearPresence();
+
+  public void AddEventListenerReady(DiscordRPC.Events.OnReadyEvent callback)
+  {
+    this.client.OnReady += callback;
+  }
+
+  public void RemoevEventListenerReady(DiscordRPC.Events.OnReadyEvent callback)
+  {
+    this.client.OnReady -= callback;
+  }
 }

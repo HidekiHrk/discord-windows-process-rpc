@@ -34,6 +34,11 @@ public class Program
 
     ContextMenuStrip contextMenu = new ContextMenuStrip(contextMenuComponentContainer);
 
+    contextMenu.Items.Add("Reconnect Presence", null, (sender, ev) =>
+    {
+      this.controller?.Reconnect();
+    });
+
     contextMenu.Items.Add("Exit", null, (sender, ev) =>
     {
       this.started = false;
@@ -76,6 +81,12 @@ public class Program
 
     RPCProcess? currentRpcProcess = null;
 
+    DiscordRPC.Events.OnReadyEvent readyEvent = (sender, ev) =>
+    {
+      currentRpcProcess = null;
+    };
+    this.controller.AddEventListenerReady(readyEvent);
+
     while (this.started)
     {
       if (this.controller.client.IsInitialized)
@@ -95,6 +106,8 @@ public class Program
       for (int i = 0; i < interval && this.started; i++)
         Thread.Sleep(1000);
     }
+
+    this.controller.RemoevEventListenerReady(readyEvent);
   }
 
   public static void Main(string[] args)
