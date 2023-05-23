@@ -34,12 +34,8 @@ public class Program
 
     ContextMenuStrip contextMenu = new ContextMenuStrip(contextMenuComponentContainer);
 
-    contextMenu.Items.Add("Reconnect Presence", null, (sender, ev) =>
-    {
-      this.controller?.Reconnect();
-    });
-
-    contextMenu.Items.Add("Exit", null, (sender, ev) =>
+    Image exitImage = Image.FromFile("Assets/exit.ico");
+    contextMenu.Items.Add("Exit", exitImage, (sender, ev) =>
     {
       this.started = false;
       Application.Exit();
