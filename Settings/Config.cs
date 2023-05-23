@@ -29,9 +29,21 @@ internal class Config
     if (File.Exists(currentPath)) return;
     RPCConfig defaultRPCConfig = new RPCConfig()
     {
+      UpdateIntervalInSeconds = 10,
       ApplicationID = "688622210151219264",
-      InvertLargeAndSmallImages = false,
-      Processes = new Process[] { }
+      SwapLargeAndSmallImages = false,
+      Processes = new RPCProcess[] {
+        new RPCProcess() {
+          ProcessName = "discord",
+          LargeImageKey = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAc6CCHPIRzRQWNAeSGmsUDFm92OXi5btmoaorUGejkzoOD8htYtIkFPh_ZXRd83IiCq8&usqp=CAU",
+          SmallImageKey = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAc6CCHPIRzRQWNAeSGmsUDFm92OXi5btmoaorUGejkzoOD8htYtIkFPh_ZXRd83IiCq8&usqp=CAU",
+          LargeImageText = "DISCORD",
+          SmallImageText = "discord",
+          Details = "DISCORD",
+          State = "discord",
+          ShowTimestamp = true
+        }
+      }
     };
     string serializedDefaultConfig = JsonSerializer.Serialize(defaultRPCConfig,
       new JsonSerializerOptions()

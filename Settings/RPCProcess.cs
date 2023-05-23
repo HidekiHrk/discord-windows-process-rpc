@@ -1,6 +1,6 @@
 namespace DWinProcessRPC.Settings;
 
-internal class Process
+internal class RPCProcess
 {
   public string? ProcessName { get; set; }
   public string? LargeImageKey { get; set; }
@@ -9,4 +9,5 @@ internal class Process
   public string? SmallImageText { get; set; }
   public string? Details { get; set; }
   public string? State { get; set; }
+  public bool? ShowTimestamp { get; set; }
 }

@@ -1,14 +1,18 @@
 using System;
 using DiscordRPC;
+using DWinProcessRPC.Settings;
 
 namespace DWinProcessRPC;
 
 internal class RPCController
 {
   public DiscordRpcClient client;
-  public RPCController()
+
+  public bool swapLargeImages = false;
+  public RPCController(string applicationID, bool swapLargeImages = false)
   {
-    this.client = new DiscordRpcClient("688622210151219264");
+    this.client = new DiscordRpcClient(applicationID);
+    this.swapLargeImages = swapLargeImages;
   }
 
   public void Initialize()
@@ -23,18 +27,24 @@ internal class RPCController
     };
 
     this.client.Initialize();
+  }
 
+  public void SetPresence(RPCProcess rpcProcess)
+  {
     this.client.SetPresence(new RichPresence()
     {
-      Details = "Opa",
-      State = "Eae",
+      Details = rpcProcess.Details,
+      State = rpcProcess.State,
+      Timestamps = (rpcProcess.ShowTimestamp ?? false) ? new Timestamps(DateTime.UtcNow) : null,
       Assets = new Assets()
       {
-        LargeImageKey = "https://i.pinimg.com/originals/24/e9/ef/24e9ef0199309b4826787385e99b212d.jpg",
-        SmallImageKey = "logo",
-        LargeImageText = "TESTE LOGO GRANDE",
-        SmallImageText = "teste logo pequena",
+        LargeImageKey = this.swapLargeImages ? rpcProcess.SmallImageKey : rpcProcess.LargeImageKey,
+        SmallImageKey = this.swapLargeImages ? rpcProcess.LargeImageKey : rpcProcess.SmallImageKey,
+        LargeImageText = this.swapLargeImages ? rpcProcess.SmallImageText : rpcProcess.LargeImageText,
+        SmallImageText = this.swapLargeImages ? rpcProcess.LargeImageText : rpcProcess.SmallImageText,
       }
     });
   }
+
+  public void ClearPresence() => this.client.ClearPresence();
 }
